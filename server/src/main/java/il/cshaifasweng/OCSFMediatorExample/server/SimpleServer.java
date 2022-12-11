@@ -5,8 +5,12 @@ import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.SubscribedClient;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class SimpleServer extends AbstractServer {
 	private static ArrayList<SubscribedClient> SubscribersList = new ArrayList<>();
@@ -49,18 +53,39 @@ public class SimpleServer extends AbstractServer {
 			}
 			else if(request.startsWith("send Submitters IDs")){
 				//add code here to send submitters IDs to client
+				message.setMessage("209243203, Moanes's ID");
+				client.sendToClient(message);
 			}
 			else if (request.startsWith("send Submitters")){
+				message.setMessage("Rojeh, Moanes");
+				client.sendToClient(message);
 				//add code here to send submitters names to client
 			}
 			else if (request.equals("what day it is?")) {
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+				LocalDateTime now = LocalDateTime.now();
+				message.setMessage(dtf.format(now));
+				client.sendToClient(message);
 				//add code here to send the date to client
 			}
 			else if (request.startsWith("add")){
+				String input = message.getMessage();
+				input = input.replaceAll("\\s" ,"");
+				input = input.replaceAll("add" ,"");
+				String[] nums = input.split("\\+");
+				int sum = Integer.parseInt(nums[0])+Integer.parseInt(nums[1]);
+				input = String.valueOf(sum);
+				message.setMessage(input);
+				client.sendToClient(message);
+
+
 				//add code here to sum 2 numbers received in the message and send result back to client
 				//(use substring method as shown above)
 				//message format: "add n+m"
 			}else{
+				String input = message.getMessage();
+				message.setMessage(input);
+				sendToAllClients(message);
 				//add code here to send received message to all clients.
 				//The string we received in the message is the message we will send back to all clients subscribed.
 				//Example:
