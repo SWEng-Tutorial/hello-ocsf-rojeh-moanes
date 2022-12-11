@@ -53,7 +53,7 @@ public class SimpleServer extends AbstractServer {
 			}
 			else if(request.startsWith("send Submitters IDs")){
 				//add code here to send submitters IDs to client
-				message.setMessage("209243203, Moanes's ID");
+				message.setMessage("209243203, 315200733");
 				client.sendToClient(message);
 			}
 			else if (request.startsWith("send Submitters")){
